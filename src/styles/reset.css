@@ -49,8 +49,14 @@ table {
 
 * {
 	box-sizing: border-box;
+	font-family: 'Verdana';
 }
 
 strong {
 	font-weight: bold;
 }
+
+a {
+	text-decoration: none;
+}
+

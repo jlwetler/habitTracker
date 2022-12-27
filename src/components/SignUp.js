@@ -1,42 +1,43 @@
 import styled from 'styled-components';
 import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
-import { useState, useContext } from 'react';
-import UserContext from '../contexts/UserContext'; 
-import logo from "../img/logo.JPG";
+import { Link } from 'react-router-dom'
+import { useState } from 'react';
+import logo from '../img/logo.JPG';
 import Loading from './Loading';
 
-
-export default function Login() {
+export default function SignUp() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [name, setName] = useState("");
+    const [image, setImage] = useState("");
     const [removeLoading, setRemoveLoading] = useState(false);
-    const navigate = useNavigate();
-    const { user, setUser } = useContext(UserContext);
-    
-    function sendLogin() {
-        setRemoveLoading(true);
-        const body = {email, password}
-        const promise = axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login', body);
 
-        promise.then((response) => {
-            setUser(response.data);
-            navigate('/today');
+    function sendData() {
+        setRemoveLoading(true);
+        const body= {email, name, image, password} 
+        const promise = axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up', body);
+
+        promise.then(() => {
+            console.log('deu bom');
+            setRemoveLoading(false);
         });
         promise.catch(() => {
             console.log('deu ruim');
             setRemoveLoading(false);
         });
     }
+        
 
     return (
         <Container>
             <img src={logo} alt='logo' />
             <Input type="email" placeholder="email" value={email} onChange={e => setEmail(e.target.value)} required/>
             <Input type="password" placeholder="senha" value={password} onChange={e => setPassword(e.target.value)} required/>
-            <Button disabled={!removeLoading ? false : true} onClick={sendLogin}>{!removeLoading ? 'Entrar' : <Loading/>}</Button>
-            <Link to='/cadastro' >
-                <span>Não tem uma conta? Cadastre-se</span>
+            <Input type="text" placeholder="nome" value={name} onChange={e => setName(e.target.value)} required/>
+            <Input type="url" placeholder="foto" value={image} onChange={e => setImage(e.target.value)} required/>
+            <Button onClick={sendData}>{!removeLoading ? 'Cadastrar' : <Loading/>}</Button>
+            <Link to='/' >
+                <span>Já tem uma conta? Faça login</span>
             </Link>
         </Container>
     );
@@ -72,8 +73,5 @@ const Button = styled.div `
     width: 303px;
     height: 45px;
     margin-bottom: 10px;
-    cursor: pointer;
-    disabled {
-        opacity: 0.1;
-    }
+    cursor: pointer
 `;
