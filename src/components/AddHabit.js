@@ -2,11 +2,20 @@ import styled from "styled-components";
 
 export default function AddHabit({ days, setDays, newHabit, setNewHabit, AddNewHabit, setAddNewHabit, }) {
 
+    function changeStatus(id) {
+        (!days[id].isSelected) ? 
+            setDays([...days], days[id].isSelected = true) : 
+            setDays([...days], days[id].isSelected = false);
+        console.log(days[id].isSelected);
+    }
+
     return(
         <NewHabitContainer>
             <input type="text" placeholder="nome do hábito" value={newHabit} onChange={e => setNewHabit(e.target.value)} required/>
-            {days.map(d => 
-                <div>{d.day}</div>
+            {days.map(({ day, id, isSelected }) => 
+                <Day key={id} back={isSelected ? true : false} onClick={() => {changeStatus(id)}}> 
+                        {day}
+                </Day>
             )}
             <section>
                 <Cancel onClick={() => setAddNewHabit(false)}>Cancelar</Cancel>     
@@ -30,17 +39,6 @@ const NewHabitContainer = styled.div`
         width: 85vw;
         height: 45px;
     }
-    div {
-        background: white;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 30px;
-        height: 30px;
-        margin: 5px 5px 0 0;
-        border-radius: 5px;
-        border: 1px solid #000;
-    }
     section {
         width: 85vw;
         margin-top: 40px;
@@ -48,6 +46,18 @@ const NewHabitContainer = styled.div`
         justify-content: flex-end;
         align-items: center;
     }
+`;
+
+const Day = styled.div `
+    background: ${props => props.back ? 'gray' : 'white'};
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    margin: 5px 5px 0 0;
+    border-radius: 5px;
+    border: 1px solid #000;
 `;
 
 const Cancel = styled.button `

@@ -26,6 +26,11 @@ export default function HabitsContainer() {
 
     if (habits.length === 0) {
     return (
-    <span>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</span>
-    )};
+    <NoHabitsMessage>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</NoHabitsMessage>
+    )}
 }
+
+const NoHabitsMessage = styled.div`
+    font-size: 24px;
+    margin: 10px 25px;
+`;
