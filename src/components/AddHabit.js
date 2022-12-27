@@ -1,17 +1,51 @@
-import styled from "styled-components";
+import styled from 'styled-components';
+import axios from 'axios';
+import { useState, useContext } from 'react';
+import UserContext from '../contexts/UserContext';
+import HabitsContext from '../contexts/HabitsContext';
+import Loading from './Loading';
 
-export default function AddHabit({ days, setDays, newHabit, setNewHabit, AddNewHabit, setAddNewHabit, }) {
+export default function AddHabit({ days, setDays, AddNewHabit, setAddNewHabit, }) {
+    const [name, setName] = useState('');
+    const { user } = useContext(UserContext);
+    const { setHabits } = useContext(HabitsContext);
+    const [removeLoading, setRemoveLoading] = useState(false);
+    const config = {
+        headers: {
+            "Authorization": `Bearer ${user.token}`
+        }
+    }
 
     function changeStatus(id) {
         (!days[id].isSelected) ? 
             setDays([...days], days[id].isSelected = true) : 
             setDays([...days], days[id].isSelected = false);
-        console.log(days[id].isSelected);
+
+    }
+
+    function createHabit() {
+        setRemoveLoading(true);
+        const selectedDays = [];
+        const weekDay = days.filter(item => item.isSelected)
+        weekDay.forEach(item => selectedDays.push(item.id));
+
+        const newHabit = {name, days: selectedDays}
+
+        const promise = axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits', newHabit, config);
+
+        promise.then((response) => {
+            setHabits(response.data);
+            setRemoveLoading(false);
+        });
+        promise.catch(() => {
+            console.log('deu ruim');
+            setRemoveLoading(false);
+    })
     }
 
     return(
         <NewHabitContainer>
-            <input type="text" placeholder="nome do hábito" value={newHabit} onChange={e => setNewHabit(e.target.value)} required/>
+            <input type="text" placeholder="nome do hábito" value={name} onChange={e => setName(e.target.value)} required/>
             {days.map(({ day, id, isSelected }) => 
                 <Day key={id} back={isSelected ? true : false} onClick={() => {changeStatus(id)}}> 
                         {day}
@@ -19,7 +53,7 @@ export default function AddHabit({ days, setDays, newHabit, setNewHabit, AddNewH
             )}
             <section>
                 <Cancel onClick={() => setAddNewHabit(false)}>Cancelar</Cancel>     
-                <Save>Salvar</Save>
+                <Save disabled={!removeLoading ? false : true} onClick={createHabit}>{!removeLoading ? 'Salvar' : <Loading/>}</Save>
             </section>     
         </NewHabitContainer>
     );

@@ -6,7 +6,6 @@ import AddHabit from './AddHabit';
 import HabitsContainer from './HabitsContainer';
 
 export default function Habits() {
-    const [newHabit, setNewHabit] = useState("");
     const [addNewHabit, setAddNewHabit] = useState(false);
     const [days, setDays] = useState([
         { day: "D", id: 0, isSelected: false},
@@ -33,8 +32,6 @@ export default function Habits() {
                 <AddHabit 
                     days={days}
                     setDays={setDays}
-                    newHabit={newHabit}
-                    setNewHabit={setNewHabit} 
                     addNewHabit={addNewHabit}
                     setAddNewHabit={setAddNewHabit}
                 />
