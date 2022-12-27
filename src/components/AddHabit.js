@@ -92,12 +92,14 @@ const Day = styled.div `
     margin: 5px 5px 0 0;
     border-radius: 5px;
     border: 1px solid #000;
+    cursor: pointer;
 `;
 
 const Cancel = styled.button `
     border: none;
     background: #fff;
     color: #52B6FF;
+    cursor: pointer;
 `;
 
 const Save = styled.button `
@@ -107,4 +109,5 @@ const Save = styled.button `
     background: #52B6FF;
     color: white;
     border-radius: 5px;
+    cursor: pointer;
 `;

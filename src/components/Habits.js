@@ -36,7 +36,7 @@ export default function Habits() {
                     setAddNewHabit={setAddNewHabit}
                 />
             }
-            <HabitsContainer />
+            <HabitsContainer days={days} setDays={setDays}/>
             <Menu />         
         </Body>
     );
@@ -62,6 +62,7 @@ const MyHabits = styled.div `
         height: 35px;
         background: #52B6FF;
         color: white;
+        cursor: pointer;
     }
     span {
         color: #126BA5

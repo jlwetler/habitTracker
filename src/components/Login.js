@@ -12,7 +12,7 @@ export default function Login() {
     const [password, setPassword] = useState("");
     const [removeLoading, setRemoveLoading] = useState(false);
     const navigate = useNavigate();
-    const { user, setUser } = useContext(UserContext);
+    const { setUser } = useContext(UserContext);
     
     function sendLogin() {
         setRemoveLoading(true);
