@@ -5,10 +5,10 @@ import UserContext from '../contexts/UserContext';
 import HabitsContext from '../contexts/HabitsContext';
 import Loading from './Loading';
 
-export default function AddHabit({ days, setDays, AddNewHabit, setAddNewHabit, }) {
+export default function AddHabit({ days, setDays, AddNewHabit, setAddNewHabit, getHabits}) {
     const [name, setName] = useState('');
     const { user } = useContext(UserContext);
-    const { setHabits } = useContext(HabitsContext);
+    const { habits, setHabits } = useContext(HabitsContext);
     const [removeLoading, setRemoveLoading] = useState(false);
     const config = {
         headers: {
@@ -34,13 +34,23 @@ export default function AddHabit({ days, setDays, AddNewHabit, setAddNewHabit, }
         const promise = axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits', newHabit, config);
 
         promise.then((response) => {
-            setHabits(response.data);
+            setHabits([...habits], response.data);
             setRemoveLoading(false);
+            getHabits();
         });
         promise.catch(() => {
             console.log('deu ruim');
             setRemoveLoading(false);
-    })
+        })
+
+        resetNewHabit();
+    }
+
+    function resetNewHabit() {
+        setDays(days.map(d => {
+            return { id: d.id, day: d.day, isSelected: false }
+        }));
+        setName("");
     }
 
     return(
@@ -48,7 +58,7 @@ export default function AddHabit({ days, setDays, AddNewHabit, setAddNewHabit, }
             <input type="text" placeholder="nome do hábito" value={name} onChange={e => setName(e.target.value)} required/>
             {days.map(({ day, id, isSelected }) => 
                 <Day key={id} back={isSelected ? true : false} onClick={() => {changeStatus(id)}}> 
-                        {day}
+                    {day}
                 </Day>
             )}
             <section>
@@ -70,7 +80,7 @@ const NewHabitContainer = styled.div`
     border-radius: 5px;
     input {
         font-size:20px;
-        width: 85vw;
+        width: 90vw;
         height: 45px;
     }
     section {

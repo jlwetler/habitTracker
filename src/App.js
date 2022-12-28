@@ -14,10 +14,7 @@ import Historic from './components/Historic';
 
 export default function App() {
   const [user, setUser] = useState({});
-  const [habits, setHabits] = useState({
-    name: null,
-    days: null,
-  });
+  const [habits, setHabits] = useState([]);
   
   return (
     <>

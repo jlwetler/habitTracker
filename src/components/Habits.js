@@ -1,4 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import HabitsContext from '../contexts/HabitsContext';
+import UserContext from '../contexts/UserContext'; 
+import axios from 'axios';
 import styled from 'styled-components';
 import Header from './Header';
 import Menu from './Footer';
@@ -7,19 +10,40 @@ import HabitsContainer from './HabitsContainer';
 
 export default function Habits() {
     const [addNewHabit, setAddNewHabit] = useState(false);
+    const { user } = useContext(UserContext);
+    const { setHabits } = useContext(HabitsContext);
     const [days, setDays] = useState([
-        { day: "D", id: 0, isSelected: false},
-        { day: "S", id: 1, isSelected: false},
-        { day: "T", id: 2, isSelected: false},
-        { day: "Q", id: 3, isSelected: false},
-        { day: "Q", id: 4, isSelected: false},
-        { day: "S", id: 5, isSelected: false},
-        { day: "S", id: 6, isSelected: false},
+        { id: 0, day: "D", isSelected: false},
+        { id: 1, day: "S", isSelected: false},
+        { id: 2, day: "T", isSelected: false},
+        { id: 3, day: "Q", isSelected: false},
+        { id: 4, day: "Q", isSelected: false},
+        { id: 5, day: "S", isSelected: false},
+        { id: 6, day: "S", isSelected: false},
     ]);
+    const config = {
+        headers: {
+            "Authorization": `Bearer ${user.token}`
+        }
+    }   
 
     function addHabit() {
         setAddNewHabit(true);
     }
+
+    function getHabits() {
+        const promise = axios.get('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits',config);
+
+        promise.then((response) => {
+            setHabits(response.data);
+            console.log(response.data)
+        });
+        promise.catch(() => {
+        return 'Please reload the page'
+        })
+    }
+
+    useEffect(getHabits,[])
 
     return (
         <Body>
@@ -34,9 +58,10 @@ export default function Habits() {
                     setDays={setDays}
                     addNewHabit={addNewHabit}
                     setAddNewHabit={setAddNewHabit}
+                    getHabits={getHabits}
                 />
             }
-            <HabitsContainer days={days} setDays={setDays}/>
+            <HabitsContainer days={days} setDays={setDays} getHabits={getHabits}/>
             <Menu />         
         </Body>
     );
