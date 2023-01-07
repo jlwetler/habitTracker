@@ -15,14 +15,16 @@ export default function HabitsContainer({ days, setDays, getHabits }) {
     }    
 
     function deleteHabit(id) {
-        const promise = axios.delete(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}`,config);
-        promise.then(response => {
-            getHabits();
-            console.log(habits)
-        })
-        promise.catch(() => {
-            return 'Please reload the page'
-        })
+        if(window.confirm("Are you sure you want to delete this habit?")) {
+            const promise = axios.delete(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}`,config);
+            promise.then(response => {
+                getHabits();
+                console.log(habits)
+            })
+            promise.catch(() => {
+                return 'Please reload the page'
+            })
+        }
     }
 
     function getHabitsDays(day, id) {

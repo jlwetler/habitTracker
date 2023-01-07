@@ -37,6 +37,7 @@ export default function AddHabit({ days, setDays, AddNewHabit, setAddNewHabit, g
             setHabits([...habits], response.data);
             setRemoveLoading(false);
             getHabits();
+            setAddNewHabit(false);
         });
         promise.catch(() => {
             console.log('deu ruim');

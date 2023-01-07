@@ -68,12 +68,13 @@ export default function Habits() {
 }
 
 const Body = styled.div `
+    padding-top: 20px;
     background: #E5E5E5;
     height: 100vh;
 `;
 
 const MyHabits = styled.div `
-    margin: 80px 20px 20px 20px;
+    margin: 70px 20px 20px 20px;
     font-size: 24px;
     display: flex;
     justify-content: space-between;
@@ -90,7 +91,8 @@ const MyHabits = styled.div `
         cursor: pointer;
     }
     span {
-        color: #126BA5
+        color: #126BA5;
+        font-weight: bold;
     }
 `;
 
