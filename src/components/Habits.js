@@ -68,6 +68,7 @@ export default function Habits() {
 }
 
 const Body = styled.div `
+    font-family: 'Righteous';
     padding-top: 20px;
     background: #E5E5E5;
     height: 100vh;
@@ -80,7 +81,7 @@ const MyHabits = styled.div `
     justify-content: space-between;
     align-items: center;
     div {
-        font-weight: bold;
+        font-size: 32px;
         display: flex;
         justify-content: center;
         align-items: center;

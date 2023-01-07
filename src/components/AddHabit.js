@@ -80,6 +80,7 @@ const NewHabitContainer = styled.div`
     margin: 20px auto;
     border-radius: 5px;
     input {
+        font-family: 'Righteous';
         font-size:20px;
         width: 90vw;
         height: 45px;
@@ -107,6 +108,7 @@ const Day = styled.div `
 `;
 
 const Cancel = styled.button `
+    font-family: 'Righteous';
     border: none;
     background: #fff;
     color: #52B6FF;
@@ -114,6 +116,7 @@ const Cancel = styled.button `
 `;
 
 const Save = styled.button `
+    font-family: 'Righteous';
     border: none;
     width: 84px;
     height: 35px;

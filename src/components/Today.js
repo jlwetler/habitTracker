@@ -8,11 +8,12 @@ import DayJS from "dayjs";
 import "dayjs/locale/pt-br";
 
 export default function Today() {
-    const { user, setUser } = useContext(UserContext);
+    const { user } = useContext(UserContext);
     const date = DayJS().locale('pt-br').format("DD/MM");
     const weekday = DayJS().locale('pt-br').format("dddd").replace("-feira", "");
     const [ todayHabits, setTodayHabits ] = useState([]);
-    const [ checked, setChecked] = useState(false);
+    const [ progress, setProgress] = useState(0);
+    const [ record, setRecord ] = useState([]);
     const config = {
         headers: {
             "Authorization": `Bearer ${user.token}`
@@ -25,16 +26,25 @@ export default function Today() {
 
         promise.then((response) => {
             setTodayHabits(response.data);
-            console.log(response.data)
+            setRecord(response.data.map((item) => item.highestSequence ));
         });
         promise.catch(() => {
         return 'Please reload the page'
         })
     }
 
-    useEffect(getTodayHabits,[])
+    useEffect(getTodayHabits,[]);
+    setTimeout(getProgress, 100);
 
-    function check(habit) {
+    function getProgress() {
+        if(todayHabits.length !== 0) {
+            setProgress(Math.round(todayHabits.reduce((value, item) => 
+            (item.done ? value+=1 : value+=0),0) / todayHabits.length * 100));
+        }
+    }
+        
+
+    function check(habit, i) {
         if(!habit.done) {
             setTodayHabits([...todayHabits], habit.done = true, habit.currentSequence += 1);
             
@@ -43,31 +53,47 @@ export default function Today() {
             }
 
             const promise = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${habit.id}/check`, "", config);
-            promise.then(response => {
-                console.log('ok')
+            promise.then(() => {
+                getProgress()
             })
             promise.catch(() => {
                 console.log('erro')
             })
         } else {
+            if( record[i] < habit.currentSequence && habit.currentSequence === habit.highestSequence) {
+                setTodayHabits([...todayHabits], habit.highestSequence -= 1);
+            }
             setTodayHabits([...todayHabits], habit.done = false, habit.currentSequence -= 1);
-            const promise2 = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${habit.id}/uncheck`, "", config)
+
+            const promise = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${habit.id}/uncheck`, "", config);
+            promise.then(() => {
+                getProgress()
+            })
+            promise.catch(() => {
+                console.log('erro')
+            })
         }
     }
+
+
 
     return (
         <Body>
             <Header />
             <TodayHabits>
-                <span>{weekday}, {date}</span>   
-                {todayHabits.map(habit =>
-                    <HabitContainer key={habit.id}>
+                <span>{weekday}, {date}</span>
+                {progress === 0 ? 
+                    <div>Nenhum hábito concluído ainda</div> : 
+                    <div>{progress}% dos hábitos concluídos</div>
+                }   
+                {todayHabits.map((habit, i) =>
+                    <HabitContainer key={habit.id} habit={habit}>
                             <section>
                                 <h1 className='title'>{habit.name}<br/></h1>
-                                <span>Sequência atual: {habit.currentSequence} dias<br/></span>
-                                <span>Seu recorde: {habit.currentSequence} dias<br/></span>
+                                <p>Sequência atual: <span>{habit.currentSequence} dias</span></p>
+                                <p>Seu recorde: {habit.highestSequence} dias<br/></p>
                             </section>
-                            <Checkbox onClick={() => check(habit)} checked={habit.done}></Checkbox>             
+                            <Checkbox onClick={() => check(habit, i)} checked={habit.done}/>       
                     </HabitContainer>
                 )}
             </TodayHabits> 
@@ -81,7 +107,7 @@ const Body = styled.div `
     padding-top: 20px;
     background: #E5E5E5;
     height: 100vh;
-    font-family: 'Roboto';
+    font-family: 'Righteous';
 `;
 
 const TodayHabits = styled.div `
@@ -89,9 +115,12 @@ const TodayHabits = styled.div `
     font-size: 24px;
     background: #E5E5E5;
 
-    span {
+    & > span {
         color: #126BA5;
         font-weight: bold;
+    }
+    & > div {
+        margin-top: 10px;
     }
 `;
 
@@ -107,9 +136,13 @@ const HabitContainer = styled.div `
     border-radius: 5px;
 
     span {
+        color: ${({habit}) => habit.done ? 'green' : 'gray' };
+    }
+
+    p {
         margin-bottom: 5px;
         font-size: 16px;
-        font-weight: normal;
+        color: gray;
     }
 
     .title {

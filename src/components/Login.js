@@ -43,6 +43,7 @@ export default function Login() {
 }
 
 const Container = styled.div `
+    font-family: 'Righteous';
     height: 100vh;
     display: flex;
     flex-direction: column;

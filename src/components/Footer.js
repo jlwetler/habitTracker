@@ -10,7 +10,7 @@ export default function Menu() {
             </Link>
             <Bottom>
                 <Link to='/habits'>
-                <span>Hábitos</span>
+                    <span>Hábitos</span>
                 </Link>
                 <Link to='/historic'>
                     <span>Histórico</span>
@@ -24,6 +24,7 @@ export default function Menu() {
 const Bottom = styled.div `
     display: flex;
     justify-content: space-between;
+    align-items: center;
     position: fixed;
     width: 100vw;
     height: 70px;
