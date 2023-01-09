@@ -36,7 +36,6 @@ export default function Habits() {
 
         promise.then((response) => {
             setHabits(response.data);
-            console.log(response.data)
         });
         promise.catch(() => {
         return 'Please reload the page'
@@ -46,7 +45,7 @@ export default function Habits() {
     useEffect(getHabits,[])
 
     return (
-        <Body>
+        <>
             <Header />
             <MyHabits>
                 <span>Meus hábitos</span>
@@ -63,19 +62,13 @@ export default function Habits() {
             }
             <HabitsContainer days={days} setDays={setDays} getHabits={getHabits}/>
             <Menu />         
-        </Body>
+        </>
     );
 }
 
-const Body = styled.div `
-    font-family: 'Righteous';
-    padding-top: 20px;
-    background: #E5E5E5;
-    height: 100vh;
-`;
 
 const MyHabits = styled.div `
-    margin: 70px 20px 20px 20px;
+    margin: 0 20px 20px 20px;
     font-size: 24px;
     display: flex;
     justify-content: space-between;

@@ -4,6 +4,7 @@ import {
   Routes 
 } from 'react-router-dom';
 import React, { useState } from 'react';
+import GlobalStyle from './globalStyles'
 import UserContext from './contexts/UserContext';
 import HabitsContext from './contexts/HabitsContext';
 import Login from './components/Login';
@@ -19,6 +20,7 @@ export default function App() {
   return (
     <>
       <Router>
+        <GlobalStyle/>
         <UserContext.Provider value={{ user, setUser }}>
           <HabitsContext.Provider value={{ habits, setHabits }}>    
             <Routes>

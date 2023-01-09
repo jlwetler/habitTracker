@@ -19,7 +19,6 @@ export default function HabitsContainer({ days, setDays, getHabits }) {
             const promise = axios.delete(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}`,config);
             promise.then(response => {
                 getHabits();
-                console.log(habits)
             })
             promise.catch(() => {
                 return 'Please reload the page'

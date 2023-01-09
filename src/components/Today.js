@@ -78,7 +78,7 @@ export default function Today() {
 
 
     return (
-        <Body>
+        <>
             <Header />
             <TodayHabits>
                 <span>{weekday}, {date}</span>
@@ -98,20 +98,13 @@ export default function Today() {
                 )}
             </TodayHabits> 
             <Menu />
-        </Body>
+        </>
     );
 
 }
 
-const Body = styled.div `
-    padding-top: 20px;
-    background: #E5E5E5;
-    height: 100vh;
-    font-family: 'Righteous';
-`;
-
 const TodayHabits = styled.div `
-    margin: 80px 20px 20px 20px;
+    margin: 0 20px 20px 20px;
     font-size: 24px;
     background: #E5E5E5;
 
