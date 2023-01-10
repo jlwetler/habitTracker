@@ -81,7 +81,7 @@ export default function Today() {
     return (
         <>
             <Header />
-            <TodayHabits progress={progress}>
+            <TodayHabits>
                 <span>{weekday}, {date}</span>
                 {progress === 0 ? 
                     <div>Nenhum hábito concluído ainda</div> : 
@@ -149,8 +149,9 @@ const HabitContainer = styled.div `
 
 const Checkbox = styled.div `
     background: ${({checked}) => checked ? 'green' : 'lightgray' };
-    width: 70px;
-    height: 70px;
+    width: 60px;
+    height: 60px;
+    margin-top: 5px;
     display: flex;
     border-radius: 5px;
     cursor: pointer;
