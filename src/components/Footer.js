@@ -1,12 +1,29 @@
-import { Link } from 'react-router-dom';
-import styled from 'styled-components';
+import { Link } from 'react-router-dom'
+import styled from 'styled-components'
+import { useContext } from 'react'
+import { CircularProgressbar, buildStyles } from 'react-circular-progressbar'
+import ProgressContext from '../contexts/ProgressContext'
+import 'react-circular-progressbar/dist/styles.css'
 
 export default function Menu() {
-    
+    const { progress } = useContext(ProgressContext);
     return (
         <>
             <Link to='/today'>
-                <Circle>Hoje</Circle>
+                <Circle>
+                    <CircularProgressbar
+                        background
+                        backgroundPadding={5} 
+                        value={progress} 
+                        text="Hoje"
+                        styles={buildStyles({
+                            textColor: 'white',
+                            trailColor: '#52B6FF',
+                            pathColor: 'white',
+                            backgroundColor: '#52B6FF'
+                        })} 
+                    />
+                </Circle>
             </Link>
             <Bottom>
                 <Link to='/habits'>
@@ -40,6 +57,7 @@ const Bottom = styled.div `
 `;  
 
 const Circle = styled.div `
+    padding: 5px;
     display: flex;
     align-items: center;
     justify-content: center;

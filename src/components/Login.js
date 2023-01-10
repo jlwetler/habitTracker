@@ -1,10 +1,10 @@
-import styled from 'styled-components';
-import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
-import { useState, useContext } from 'react';
-import UserContext from '../contexts/UserContext'; 
-import logo from "../img/logo.JPG";
-import Loading from './Loading';
+import styled from 'styled-components'
+import axios from 'axios'
+import { Link, useNavigate } from 'react-router-dom'
+import { useState, useContext } from 'react'
+import UserContext from '../contexts/UserContext'
+import logo from "../img/logo.JPG"
+import Loading from './Loading'
 
 
 export default function Login() {
@@ -32,9 +32,23 @@ export default function Login() {
     return (
         <Container>
             <img src={logo} alt='logo' />
-            <Input type="email" placeholder="email" value={email} onChange={e => setEmail(e.target.value)} required/>
-            <Input type="password" placeholder="senha" value={password} onChange={e => setPassword(e.target.value)} required/>
-            <Button disabled={!removeLoading ? false : true} onClick={sendLogin}>{!removeLoading ? 'Entrar' : <Loading/>}</Button>
+            <input 
+                type="email" 
+                placeholder="email" 
+                value={email} 
+                onChange={e => setEmail(e.target.value)} 
+                required
+            />
+            <input 
+                type="password" 
+                placeholder="senha" 
+                value={password} 
+                onChange={e => setPassword(e.target.value)} 
+                required
+            />
+            <Button disabled={!removeLoading ? false : true} onClick={sendLogin}>
+                {!removeLoading ? 'Entrar' : <Loading/>}
+            </Button>
             <Link to='/cadastro' >
                 <span>Não tem uma conta? Cadastre-se</span>
             </Link>
@@ -43,7 +57,7 @@ export default function Login() {
 }
 
 const Container = styled.div `
-    font-family: 'Righteous';
+    background: white;
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -53,14 +67,13 @@ const Container = styled.div `
         span {
             color: #52B6FF;
         }
-`;
-
-const Input = styled.input `
-    width: 303px;
-    height: 45px;
-    border: 1px solid #000000;
-    border-radius: 5px;
-    margin-bottom: 10px;
+        input {
+            width: 303px;
+            height: 45px;
+            border: 1px solid #000000;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
 `;
 
 const Button = styled.div `

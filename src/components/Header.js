@@ -1,7 +1,7 @@
 import logo from '../img/logo-name.JPG'
-import { useContext } from 'react';
-import UserContext from '../contexts/UserContext'; 
-import styled from 'styled-components';
+import { useContext } from 'react'
+import UserContext from '../contexts/UserContext'
+import styled from 'styled-components'
 
 export default function Header() {
     const { user } = useContext(UserContext);

@@ -1,14 +1,12 @@
-import styled from 'styled-components';
-import axios from 'axios';
-import { useState, useContext } from 'react';
-import UserContext from '../contexts/UserContext';
-import HabitsContext from '../contexts/HabitsContext';
-import Loading from './Loading';
+import styled from 'styled-components'
+import axios from 'axios'
+import { useState, useContext } from 'react'
+import UserContext from '../contexts/UserContext'
+import Loading from './Loading'
 
-export default function AddHabit({ days, setDays, AddNewHabit, setAddNewHabit, getHabits}) {
+export default function AddHabit({ days, setDays, habits, setHabits, setAddNewHabit, getHabits}) {
     const [name, setName] = useState('');
     const { user } = useContext(UserContext);
-    const { habits, setHabits } = useContext(HabitsContext);
     const [removeLoading, setRemoveLoading] = useState(false);
     const config = {
         headers: {
@@ -26,8 +24,7 @@ export default function AddHabit({ days, setDays, AddNewHabit, setAddNewHabit, g
     function createHabit() {
         setRemoveLoading(true);
         const selectedDays = [];
-        const weekDay = days.filter(item => item.isSelected)
-        weekDay.forEach(item => selectedDays.push(item.id));
+        days.filter(item => item.isSelected ? selectedDays.push(item.id) : null)
 
         const newHabit = {name, days: selectedDays}
 
@@ -40,7 +37,7 @@ export default function AddHabit({ days, setDays, AddNewHabit, setAddNewHabit, g
             setAddNewHabit(false);
         });
         promise.catch(() => {
-            console.log('deu ruim');
+            console.log('Erro ao cadastrar hábito');
             setRemoveLoading(false);
         })
 
@@ -56,15 +53,32 @@ export default function AddHabit({ days, setDays, AddNewHabit, setAddNewHabit, g
 
     return(
         <NewHabitContainer>
-            <input type="text" placeholder="nome do hábito" value={name} onChange={e => setName(e.target.value)} required/>
+            <input 
+                type="text" 
+                placeholder="nome do hábito" 
+                value={name} 
+                onChange={e => setName(e.target.value)} 
+                required
+            />
             {days.map(({ day, id, isSelected }) => 
-                <Day key={id} back={isSelected ? true : false} onClick={() => {changeStatus(id)}}> 
+                <Day 
+                    key={id} 
+                    back={isSelected ? true : false} 
+                    onClick={() => {changeStatus(id)}}
+                > 
                     {day}
                 </Day>
             )}
             <section>
-                <Cancel onClick={() => setAddNewHabit(false)}>Cancelar</Cancel>     
-                <Save disabled={!removeLoading ? false : true} onClick={createHabit}>{!removeLoading ? 'Salvar' : <Loading/>}</Save>
+                <Cancel onClick={() => setAddNewHabit(false)}>
+                    Cancelar
+                </Cancel>     
+                <Save 
+                disabled={!removeLoading ? false : true} 
+                onClick={createHabit}
+                >
+                    {!removeLoading ? 'Salvar' : <Loading/>}
+                </Save>
             </section>     
         </NewHabitContainer>
     );
@@ -79,6 +93,7 @@ const NewHabitContainer = styled.div`
     padding: 13px;
     margin: 20px auto;
     border-radius: 5px;
+    box-shadow: 3px 3px 3px 3px rgba(0, 0, 0, 0.3);
     input {
         font-family: 'Righteous';
         font-size:20px;

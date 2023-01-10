@@ -1,13 +1,11 @@
-import { useContext } from 'react';
-import styled from 'styled-components';
-import axios from 'axios';
-import UserContext from '../contexts/UserContext'; 
-import HabitsContext from '../contexts/HabitsContext';
-import trash from "../img/trash.JPG";
+import { useContext } from 'react'
+import styled from 'styled-components'
+import axios from 'axios'
+import UserContext from '../contexts/UserContext'
+import trash from "../img/trash.JPG"
 
-export default function HabitsContainer({ days, setDays, getHabits }) {
+export default function HabitsContainer({ days, getHabits, habits }) {
     const { user } = useContext(UserContext);
-    const { habits } = useContext(HabitsContext);
     const config = {
         headers: {
             "Authorization": `Bearer ${user.token}`
@@ -15,7 +13,7 @@ export default function HabitsContainer({ days, setDays, getHabits }) {
     }    
 
     function deleteHabit(id) {
-        if(window.confirm("Are you sure you want to delete this habit?")) {
+        if(window.confirm("Tem certeza que deseja deletar o hábito?")) {
             const promise = axios.delete(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}`,config);
             promise.then(response => {
                 getHabits();
@@ -39,7 +37,7 @@ export default function HabitsContainer({ days, setDays, getHabits }) {
         return (
             <AllHabits>
                 {habits.map(h => 
-                    <HabitContainer>
+                    <HabitContainer key={h.id}>
                         <span>{h.name}</span>
                         <div>
                             {days.map(({ day, id, isSelected }) => 
@@ -73,6 +71,7 @@ const HabitContainer = styled.div `
     padding: 10px;
     margin: 20px auto;
     border-radius: 5px;
+    box-shadow: 3px 3px 3px 3px rgba(0, 0, 0, 0.3);
     div {
         display: flex;
         margin-top: 10px;

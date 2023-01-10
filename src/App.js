@@ -2,27 +2,27 @@ import {
   BrowserRouter as Router, 
   Route, 
   Routes 
-} from 'react-router-dom';
-import React, { useState } from 'react';
+} from 'react-router-dom'
+import React, { useState } from 'react'
 import GlobalStyle from './globalStyles'
-import UserContext from './contexts/UserContext';
-import HabitsContext from './contexts/HabitsContext';
-import Login from './components/Login';
-import SignUp from './components/SignUp';
-import Habits from './components/Habits';
-import Today from './components/Today';
-import Historic from './components/Historic';
+import UserContext from './contexts/UserContext'
+import ProgressContext from './contexts/ProgressContext'
+import Login from './components/Login'
+import SignUp from './components/SignUp'
+import Habits from './components/Habits'
+import Today from './components/Today'
+import Historic from './components/Historic'
 
 export default function App() {
   const [user, setUser] = useState({});
-  const [habits, setHabits] = useState([]);
+  const [progress, setProgress] = useState(0);
   
   return (
     <>
       <Router>
         <GlobalStyle/>
         <UserContext.Provider value={{ user, setUser }}>
-          <HabitsContext.Provider value={{ habits, setHabits }}>    
+          <ProgressContext.Provider value={{ progress, setProgress }}>    
             <Routes>
               <Route path='/' element={<Login />} />
               <Route path='cadastro' element={<SignUp />} />
@@ -30,7 +30,7 @@ export default function App() {
               <Route path='today' element={<Today />} />
               <Route path='historic' element={< Historic/>} />          
             </Routes>
-          </HabitsContext.Provider>
+          </ProgressContext.Provider>
         </UserContext.Provider>
       </Router>
     </>
