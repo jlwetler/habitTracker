@@ -3,7 +3,7 @@ import axios from 'axios'
 import { Link, useNavigate } from 'react-router-dom'
 import { useState, useContext } from 'react'
 import UserContext from '../contexts/UserContext'
-import logo from "../img/logo.JPG"
+import logo from '../img/logo.JPG'
 import Loading from './Loading'
 
 
@@ -24,7 +24,7 @@ export default function Login() {
             navigate('/today');
         });
         promise.catch(() => {
-            console.log('deu ruim');
+            alert('Email ou senha incorretos');
             setRemoveLoading(false);
         });
     }

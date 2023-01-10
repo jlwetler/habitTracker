@@ -30,7 +30,7 @@ export default function Today() {
             setRecord(response.data.map((item) => item.highestSequence ));
         });
         promise.catch(() => {
-            return 'Please reload the page'
+            alert('Houve algum erro no servidor')
         })
     }
 
@@ -58,7 +58,7 @@ export default function Today() {
                 getProgress()
             })
             promise.catch(() => {
-                console.log('erro')
+                alert('Houve algum erro no servidor')
             })
         } else {
             if( record[i] < habit.currentSequence && habit.currentSequence === habit.highestSequence) {
@@ -71,17 +71,15 @@ export default function Today() {
                 getProgress()
             })
             promise.catch(() => {
-                console.log('erro')
+                alert('Houve algum erro no servidor')
             })
         }
     }
 
-
-
     return (
         <>
             <Header />
-            <TodayHabits>
+            <TodayHabits progress={progress}>
                 <span>{weekday}, {date}</span>
                 {progress === 0 ? 
                     <div>Nenhum hábito concluído ainda</div> : 

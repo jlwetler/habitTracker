@@ -37,7 +37,7 @@ export default function AddHabit({ days, setDays, habits, setHabits, setAddNewHa
             setAddNewHabit(false);
         });
         promise.catch(() => {
-            console.log('Erro ao cadastrar hábito');
+            alert('Erro ao cadastrar hábito');
             setRemoveLoading(false);
         })
 

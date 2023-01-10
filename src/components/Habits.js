@@ -10,7 +10,7 @@ import HabitsContainer from './HabitsContainer'
 export default function Habits() {
     const [addNewHabit, setAddNewHabit] = useState(false);
     const { user } = useContext(UserContext);
-    const [ habits, setHabits ] = useState([]);
+    const [ habits, setHabits ] = useState(null);
     const [days, setDays] = useState([
         { id: 0, day: "D", isSelected: false },
         { id: 1, day: "S", isSelected: false },

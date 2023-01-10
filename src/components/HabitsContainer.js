@@ -2,6 +2,7 @@ import { useContext } from 'react'
 import styled from 'styled-components'
 import axios from 'axios'
 import UserContext from '../contexts/UserContext'
+import Loading from './Loading'
 import trash from "../img/trash.JPG"
 
 export default function HabitsContainer({ days, getHabits, habits }) {
@@ -29,9 +30,18 @@ export default function HabitsContainer({ days, getHabits, habits }) {
         return false;
     }
 
-    if (habits.length === 0) {
+    if (habits === null) {
         return (
-        <NoHabitsMessage>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</NoHabitsMessage>
+            <NoHabitsMessage>
+                Carregando... 
+                <Loading />
+            </NoHabitsMessage>
+        )
+    } else if (habits.length === 0) {
+        return (
+            <NoHabitsMessage>
+                Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!
+            </NoHabitsMessage>
         )
     }
         return (
